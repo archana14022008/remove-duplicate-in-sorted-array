@@ -1,0 +1,52 @@
+ {
+    // If the array is empty, return an empty string dynamically allocated
+    if (strsSize == 0) {
+        char* empty = (char*)malloc(1);
+        empty[0] = '\0';
+        return empty;
+    }
+
+    // Allocate memory for the prefix. It can at most be as long as the first string.
+    int maxLen = strlen(strs[0]);
+    char* prefix = (char*)malloc(maxLen + 1);
+    strcpy(prefix, strs[0]);
+
+    // Iterate through the rest of the strings in the array
+    for (int i = 1; i < strsSize; i++) {
+        int j = 0;
+        
+        // Compare the current prefix with the current string character by character
+        while (prefix[j] != '\0' && strs[i][j] != '\0' && prefix[j] == strs[i][j]) {
+            j++;
+        }
+        
+        // Truncate the prefix to the length of the match found
+        prefix[j] = '\0';
+        
+        // If the prefix becomes empty, we can stop early
+        if (j == 0) {
+            break;
+        }
+    }
+
+    return prefix;
+}
+
+// Driver code to test the function
+int main() {
+    // Example 1
+    char* arr1[] = {"flower", "flow", "flight"};
+    int size1 = sizeof(arr1) / sizeof(arr1[0]);
+    char* result1 = longestCommonPrefix(arr1, size1);
+    printf("Longest Common Prefix: \"%s\"\n", result1); // Output: "fl"
+    free(result1); // Free allocated memory
+
+    // Example 2
+    char* arr2[] = {"dog", "racecar", "car"};
+    int size2 = sizeof(arr2) / sizeof(arr2[0]);
+    char* result2 = longestCommonPrefix(arr2, size2);
+    printf("Longest Common Prefix: \"%s\"\n", result2); // Output: ""
+    free(result2); // Free allocated memory
+
+    return 0;
+}
