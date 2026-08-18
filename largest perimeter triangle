@@ -1,0 +1,24 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Comparison function for qsort to sort in ascending order
+int compare(const void *a, const void *b) {
+    return (*(int*)a - *(int*)b);
+}
+
+int largestPerimeter(int* nums, int numsSize) {
+    // Step 1: Sort the array in ascending order
+    qsort(nums, numsSize, sizeof(int), compare);
+    
+    // Step 2: Iterate backwards from the largest elements
+    for (int i = numsSize - 1; i >= 2; i--) {
+        // Check the Triangle Inequality Theorem: a + b > c
+        if (nums[i - 2] + nums[i - 1] > nums[i]) {
+            // Return the perimeter of the largest valid triangle
+            return nums[i - 2] + nums[i - 1] + nums[i];
+        }
+    }
+    
+    // Return 0 if no valid triangle can be formed
+    return 0;
+}
