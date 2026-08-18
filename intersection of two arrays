@@ -1,0 +1,44 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Comparison function for qsort
+int compare(const void *a, const void *b) {
+    return (*(int*)a - *(int*)b);
+}
+
+/**
+ * Note: The returned array must be malloced, assume caller calls free().
+ * *returnSize is the size of the returned array.
+ */
+int* intersection(int* nums1, int nums1Size, int* nums2, int nums2Size, int* returnSize) {
+    // 1. Sort both arrays to enable sequential two-pointer parsing
+    qsort(nums1, nums1Size, sizeof(int), compare);
+    qsort(nums2, nums2Size, sizeof(int), compare);
+    
+    // Allocate space for the result array (at most the size of the smaller array)
+    int maxResultSize = (nums1Size < nums2Size) ? nums1Size : nums2Size;
+    int* result = (int*)malloc(maxResultSize * sizeof(int));
+    int k = 0; // Index pointer for result array
+    
+    int i = 0; // Pointer for nums1
+    int j = 0; // Pointer for nums2
+    
+    // 2. Linear scan using two pointers
+    while (i < nums1Size && j < nums2Size) {
+        if (nums1[i] < nums2[j]) {
+            i++;
+        } else if (nums1[i] > nums2[j]) {
+            j++;
+        } else {
+            // Found a common element. Ensure uniqueness before adding to result.
+            if (k == 0 || result[k - 1] != nums1[i]) {
+                result[k++] = nums1[i];
+            }
+            i++;
+            j++;
+        }
+    }
+    
+    *returnSize = k;
+    return result;
+}
