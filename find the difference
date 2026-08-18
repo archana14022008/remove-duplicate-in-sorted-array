@@ -1,0 +1,15 @@
+char findTheDifference(char* s, char* t) {
+    char result = 0;
+    
+    // XOR all characters in string s
+    while (*s) {
+        result ^= *s++;
+    }
+    
+    // XOR all characters in string t
+    while (*t) {
+        result ^= *t++;
+    }
+    
+    return result;
+}
