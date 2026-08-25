@@ -1,0 +1,20 @@
+#include <stdio.h>
+
+int maxProduct(int* nums, int numsSize) {
+    // Initialize the two largest numbers to small values
+    int max1 = 0;
+    int max2 = 0;
+
+    // Iterate through the array to find the two largest elements
+    for (int i = 0; i < numsSize; i++) {
+        if (nums[i] > max1) {
+            max2 = max1;  // Previous largest becomes second largest
+            max1 = nums[i]; // Update the largest
+        } else if (nums[i] > max2) {
+            max2 = nums[i]; // Update only the second largest
+        }
+    }
+
+    // Return the maximum product according to the formula
+    return (max1 - 1) * (max2 - 1);
+}
