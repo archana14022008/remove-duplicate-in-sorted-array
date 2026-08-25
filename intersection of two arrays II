@@ -1,0 +1,32 @@
+#include <stdlib.h>
+
+/**
+ * Note: The returned array must be malloced, assume caller calls free().
+ */
+int* intersect(int* nums1, int nums1Size, int* nums2, int nums2Size, int* returnSize) {
+    // Array to store counts of numbers from 0 to 1000
+    int counts[1001] = {0};
+    
+    // Count frequencies of each number in the first array
+    for (int i = 0; i < nums1Size; i++) {
+        counts[nums1[i]]++;
+    }
+    
+    // Allocate memory for the result array
+    // The maximum possible size of the intersection is the size of the smaller array
+    int minSize = (nums1Size < nums2Size) ? nums1Size : nums2Size;
+    int* result = (int*)malloc(minSize * sizeof(int));
+    int count = 0;
+    
+    // Iterate through the second array to find matches
+    for (int i = 0; i < nums2Size; i++) {
+        if (counts[nums2[i]] > 0) {
+            result[count++] = nums2[i];
+            counts[nums2[i]]--; // Decrease count since this occurrence is matched
+        }
+    }
+    
+    // Set the return size for the caller
+    *returnSize = count;
+    return result;
+}
